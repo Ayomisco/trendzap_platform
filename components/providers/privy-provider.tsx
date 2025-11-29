@@ -8,11 +8,7 @@ interface PrivyClientProviderProps {
 }
 
 export function PrivyClientProvider({ children }: PrivyClientProviderProps) {
-  const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID
-
-  if (!appId) {
-    throw new Error("NEXT_PUBLIC_PRIVY_APP_ID environment variable is not set")
-  }
+  const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "demo-app-id"
 
   return (
     <PrivyProvider
