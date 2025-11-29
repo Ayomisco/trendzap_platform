@@ -1,42 +1,45 @@
 import type React from "react"
-import { Inter, JetBrains_Mono } from "next/font/google"
+import type { Metadata } from "next"
+import { Geist, Geist_Mono } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
+import { PrivyClientProvider } from "@/components/providers/privy-provider"
 import "./globals.css"
-import { WalletProvider } from "@/lib/wallet-context"
-import { NotificationsProvider } from "@/lib/notifications-context"
-import { Toaster } from "@/components/ui/sonner"
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-})
+const _geist = Geist({ subsets: ["latin"] })
+const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-})
-
-export const metadata = {
-  title: "PulseMarket - Trade Viral Tweets",
-  description: "Invest in viral content and support creators through tokenized tweets",
-    generator: 'v0.app'
+export const metadata: Metadata = {
+  title: "TrendZap - Bet on Viral Content",
+  description: "The 8-second real-money prediction market for social content. Zap it before it pops.",
+  icons: {
+    icon: [
+      {
+        url: "/trendzap_logo.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/trendzap_logo.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/icon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+    apple: "/trendzap_logo.png",
+  },
 }
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
-    <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable} antialiased`}>
-      <body className="font-sans">
-        <WalletProvider>
-          <NotificationsProvider>
-            {children}
-            <Toaster />
-          </NotificationsProvider>
-        </WalletProvider>
+    <html lang="en" className="dark">
+      <body className={`font-sans antialiased`}>
+        <PrivyClientProvider>{children}</PrivyClientProvider>
+        <Analytics />
       </body>
     </html>
   )
